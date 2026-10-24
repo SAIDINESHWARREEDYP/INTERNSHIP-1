@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="InternshipHub is a responsive internship task and project dashboard built with HTML, CSS and vanilla JavaScript.">
+  <meta name="theme-color" content="#101827">
+  <title>InternshipHub — Project Workspace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#" aria-label="InternshipHub home">
+        <span class="brand-mark"><span></span><span></span><span></span><span></span></span>
+        <span>internship<span class="brand-light">hub</span></span>
+      </a>
+      <div class="workspace-label">WORKSPACE</div>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a class="nav-item active" href="#overview" data-view="overview"><span class="nav-icon">▦</span> Overview</a>
+        <a class="nav-item" href="#tasks" data-view="tasks"><span class="nav-icon">☷</span> My tasks <span class="nav-count" id="navTaskCount">0</span></a>
+        <a class="nav-item" href="#projects" data-view="projects"><span class="nav-icon">▣</span> Projects</a>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="sidebar-help">
+          <div class="help-orb">✦</div>
+          <p class="help-title">Small steps add up.</p>
+          <p class="help-copy">Keep your work organised and make progress visible.</p>
+          <button class="text-button" id="quickAddButton">Create a task <span>↗</span></button>
+        </div>
+        <div class="profile">
+          <div class="avatar">SR</div>
+          <div class="profile-copy"><strong>My Workspace</strong><span>Frontend intern</span></div>
+          <button class="icon-button profile-menu" id="profileMenu" aria-label="Workspace information" title="Workspace information">•••</button>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="mobileMenu" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb"><span>Workspace</span><span class="crumb-slash">/</span><strong id="pageName">Overview</strong></div>
+        <div class="top-actions">
+          <div class="date-chip"><span class="status-dot"></span><span id="todayLabel">Today</span></div>
+          <button class="icon-button theme-button" id="themeToggle" aria-label="Toggle dark theme" title="Toggle theme">☼</button>
+          <button class="primary-button top-add" id="topAddButton"><span>＋</span> New task</button>
+        </div>
+      </header>
+
+      <section class="page-section" id="overviewView">
+        <div class="welcome-row">
+          <div>
+            <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL WORKSPACE</div>
+            <h1>Make progress<br><span>you can see.</span></h1>
+            <p class="welcome-subtitle">A calmer way to organise your internship work, one task at a time.</p>
+          </div>
+          <div class="welcome-art" aria-hidden="true">
+            <div class="art-ring ring-one"></div><div class="art-ring ring-two"></div>
+            <div class="art-card"><span class="art-check">✓</span><span class="art-card-lines"><i></i><i></i></span></div>
+            <div class="art-spark spark-one">✦</div><div class="art-spark spark-two">✧</div>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-label">Total tasks</span><span class="stat-icon purple">☷</span></div>
+            <div class="stat-value" id="totalTasks">0</div>
+            <div class="stat-foot"><span class="stat-dot purple-dot"></span> Tasks in your workspace</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-label">In progress</span><span class="stat-icon blue">↗</span></div>
+            <div class="stat-value" id="activeTasks">0</div>
+            <div class="stat-foot"><span class="stat-dot blue-dot"></span> Work currently underway</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-label">Completed</span><span class="stat-icon green">✓</span></div>
+            <div class="stat-value" id="completedTasks">0</div>
+            <div class="stat-foot"><span class="stat-dot green-dot"></span> Tasks finished</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span class="stat-label">Completion rate</span><span class="stat-icon orange">◔</span></div>
+            <div class="stat-value"><span id="completionRate">0</span><small>%</small></div>
+            <div class="progress-track"><span id="completionBar"></span></div>
+          </article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel task-panel" id="tasksPanel">
+            <div class="panel-heading">
+              <div><div class="section-kicker">STAY ON TRACK</div><h2>My tasks <span class="heading-count" id="taskHeadingCount">0</span></h2></div>
+              <button class="quiet-button" id="viewAllTasks">View all <span>→</span></button>
+            </div>
+            <div class="task-controls">
+              <label class="search-box"><span>⌕</span><input id="taskSearch" type="search" placeholder="Search tasks..." aria-label="Search tasks"></label>
+              <select id="statusFilter" class="filter-select" aria-label="Filter tasks by status">
+                <option value="all">All status</option><option value="todo">To do</option><option value="progress">In progress</option><option value="done">Completed</option>
+              </select>
+            </div>
+            <div class="task-list" id="taskList" aria-live="polite"></div>
+            <div class="empty-state hidden" id="emptyState">
+              <div class="empty-icon">☷</div><strong>No tasks found</strong><p>Try another search or add a task to get started.</p>
+              <button class="text-button" id="emptyAddButton">＋ Create your first task</button>
+            </div>
+          </section>
+
+          <aside class="right-column">
+            <section class="panel progress-panel">
+              <div class="panel-heading compact-heading"><div><div class="section-kicker">YOUR MOMENTUM</div><h2>Weekly progress</h2></div><span class="mini-icon">↗</span></div>
+              <p class="panel-subtext">Tasks completed this week</p>
+              <div class="weekly-total"><strong id="weeklyCompleted">0</strong><span>tasks</span></div>
+              <div class="week-chart" id="weekChart" aria-label="Tasks completed by day"></div>
+              <div class="week-labels"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div>
+              <div class="chart-note"><span class="chart-legend"></span> Completed tasks</div>
+            </section>
+            <section class="quote-card">
+              <div class="quote-top"><span class="quote-mark">“</span><span class="quote-label">A LITTLE INSPIRATION</span></div>
+              <blockquote id="quoteText">Great things are done by a series of small things brought together.</blockquote>
+              <div class="quote-author" id="quoteAuthor">— Vincent van Gogh</div>
+              <button class="quote-refresh" id="refreshQuote" aria-label="Load another quote" title="Load another quote">↻</button>
+            </section>
+          </aside>
+        </div>
+        <footer class="footer"><span>Built with focus, curiosity &amp; vanilla JavaScript.</span><span id="footerDate"></span></footer>
+      </section>
+
+      <section class="page-section alternate-view hidden" id="projectsView">
+        <div class="eyebrow"><span class="eyebrow-line"></span> YOUR WORK, IN ONE PLACE</div>
+        <h1>Projects that move<br><span>you forward.</span></h1>
+        <p class="welcome-subtitle">A lightweight project overview for planning and tracking your learning.</p>
+        <div class="project-grid">
+          <article class="project-card project-purple"><div class="project-symbol">⌘</div><span class="project-status">PERSONAL WORKSPACE</span><h2>Frontend foundations</h2><p>Build responsive interfaces and practise semantic HTML, CSS layout and accessibility.</p><div class="project-meta"><span>HTML · CSS · JavaScript</span><strong id="frontendProgress">0% done</strong></div><div class="project-progress"><span id="frontendBar"></span></div></article>
+          <article class="project-card project-blue"><div class="project-symbol">↗</div><span class="project-status">PRACTICE TRACK</span><h2>JavaScript practice</h2><p>Strengthen DOM manipulation, event handling, validation and asynchronous workflows.</p><div class="project-meta"><span>ES6+ · DOM · Fetch API</span><strong id="jsProgress">0% done</strong></div><div class="project-progress"><span id="jsBar"></span></div></article>
+          <article class="project-card project-green"><div class="project-symbol">◈</div><span class="project-status">PORTFOLIO</span><h2>Ship a project</h2><p>Keep code versioned, document the work and prepare it for a static-site deployment.</p><div class="project-meta"><span>Git · GitHub Pages</span><strong id="shipProgress">0% done</strong></div><div class="project-progress"><span id="shipBar"></span></div></article>
+        </div>
+        <div class="project-note"><span>✦</span><div><strong>Make this workspace your own</strong><p>Tasks and theme preferences are saved in this browser using localStorage. Add or complete tasks to update your progress.</p></div></div>
+      </section>
+
+      <section class="page-section alternate-view hidden" id="allTasksView">
+        <div class="eyebrow"><span class="eyebrow-line"></span> TASK MANAGEMENT</div>
+        <h1>Your task <span>list.</span></h1>
+        <p class="welcome-subtitle">Search, filter, edit and complete your work from one place.</p>
+        <div class="panel all-tasks-panel"><div class="task-controls"><label class="search-box"><span>⌕</span><input id="allTaskSearch" type="search" placeholder="Search all tasks..." aria-label="Search all tasks"></label><select id="allStatusFilter" class="filter-select" aria-label="Filter all tasks"><option value="all">All status</option><option value="todo">To do</option><option value="progress">In progress</option><option value="done">Completed</option></select></div><div class="task-list" id="allTaskList"></div><div class="empty-state hidden" id="allEmptyState"><div class="empty-icon">☷</div><strong>No matching tasks</strong><p>Create a task or change your filters.</p></div></div>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="taskModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <form class="task-modal" id="taskForm">
+      <div class="modal-heading"><div><div class="section-kicker">PLAN YOUR NEXT STEP</div><h2 id="modalTitle">Create a task</h2></div><button class="icon-button close-modal" type="button" id="closeModal" aria-label="Close dialog">×</button></div>
+      <input type="hidden" id="taskId">
+      <label class="form-label" for="taskTitle">Task title <span>*</span></label>
+      <input class="form-input" id="taskTitle" name="title" maxlength="90" placeholder="e.g. Build responsive navigation" required>
+      <label class="form-label" for="taskDescription">Description</label>
+      <textarea class="form-input form-textarea" id="taskDescription" name="description" maxlength="240" rows="3" placeholder="What needs to be done?"></textarea>
+      <div class="form-two-col"><div><label class="form-label" for="taskCategory">Category</label><select class="form-input" id="taskCategory" name="category"><option>Frontend</option><option>JavaScript</option><option>Learning</option><option>Portfolio</option><option>Other</option></select></div><div><label class="form-label" for="taskPriority">Priority</label><select class="form-input" id="taskPriority" name="priority"><option value="medium">Medium</option><option value="high">High</option><option value="low">Low</option></select></div></div>
+      <div class="form-two-col"><div><label class="form-label" for="taskStatus">Status</label><select class="form-input" id="taskStatus" name="status"><option value="todo">To do</option><option value="progress">In progress</option><option value="done">Completed</option></select></div><div><label class="form-label" for="taskDue">Due date</label><input class="form-input" id="taskDue" name="dueDate" type="date"></div></div>
+      <div class="modal-actions"><button class="secondary-button" type="button" id="cancelModal">Cancel</button><button class="primary-button" type="submit" id="saveTaskButton">Save task <span>→</span></button></div>
+    </form>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
